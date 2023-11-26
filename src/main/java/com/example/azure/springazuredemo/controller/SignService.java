@@ -1,8 +1,8 @@
 package com.example.azure.springazuredemo.controller;
 
 
+import com.example.azure.springazuredemo.controller.dto.BaseRes;
 import com.example.azure.springazuredemo.controller.dto.SignRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,11 +24,14 @@ public class SignService {
 //                .build();
 //
 //    }
-    public boolean register(SignRequest request) throws Exception {
-        boolean success = false;
+    public BaseRes register(SignRequest request){
+        BaseRes baseRes = new BaseRes();
+
+        baseRes.setRespCd("9999");
+        baseRes.setRespMsg("회원가입에 실패 했습니다.");
+
         try {
             Member member = new Member();
-            member.setId(request.getId());
             member.setEmail(request.getEmail());
             member.setName(request.getName());
             member.setGender(request.getGender());
@@ -36,12 +39,16 @@ public class SignService {
             member.setPwd(request.getPwd());
 
 
-            success = memberRepository.saveMember(member);
+            if(memberRepository.saveMember(member))  {
+                baseRes.setRespCd("0000");
+                baseRes.setRespMsg("성공했습니다");
+            }
+
+            return baseRes;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new Exception("잘못된 요청입니다.");
+            return baseRes;
         }
-        return success;
     }
 
 //    public SignResponse getMember(String email) throws Exception {

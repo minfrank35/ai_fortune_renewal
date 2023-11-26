@@ -1,5 +1,6 @@
 package com.example.azure.springazuredemo.controller;
 
+import com.example.azure.springazuredemo.controller.dto.BaseRes;
 import com.example.azure.springazuredemo.controller.dto.SignRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class SignController {
         return "welcome";
     }
     @PostMapping(value = "/register")
-    public ResponseEntity<Boolean> signup(@RequestBody SignRequest request) throws Exception {
-        return new ResponseEntity<>(memberService.register(request), HttpStatus.OK);
+    public ResponseEntity<BaseRes> signup(@RequestBody SignRequest request) throws Exception {
+        return new ResponseEntity<BaseRes>(memberService.register(request), HttpStatus.OK);
     }
 }
